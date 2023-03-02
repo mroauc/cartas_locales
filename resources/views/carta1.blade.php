@@ -21,7 +21,7 @@
     }
 
     .menu-item-name {
-        text-align-last: justify;
+        /* text-align-last: justify; */
         text-justify: inter-word;
     }
 
@@ -75,13 +75,34 @@
                             <span>{{$producto->nombre}}<span class="dots"></span></span>
                         </div>
                         <div class="menu-item-price ml-auto align-items-center">
-                            <span>{{number_format($producto->precio, 0, ',', '.')}}</span>
+                            <span>{{$producto->precio != 0 ? number_format($producto->precio, 0, ',', '.') : ''}}</span>
                         </div>
                       </div>
-                      <div style="margin-top: -5px; font-size: 15px; color: #6e6e6e;">
-                        <p style="margin: 0;">{{$producto->descripcion}}</p>
-                      </div>
+                      @if (count($producto->productos_hijos) == 0)
+                        <div style="margin-top: -5px; font-size: 15px; color: #6e6e6e;">
+                          <p style="margin: 0;">{{$producto->descripcion}}</p>
+                        </div>
+                      @endif
                     </div>
+                    @if (count($producto->productos_hijos) > 0)
+                      @foreach ($producto->productos_hijos as $p_hijo)
+                      <div class="ml-3 mb-1" style="margin-top: -5px;">
+                        <div class="menu-item d-flex">
+                          <div class="menu-item-name">
+                              <span>{{$p_hijo->nombre}}<span class="dots"></span></span>
+                          </div>
+                          <div class="menu-item-price ml-auto align-items-center">
+                              <span>{{number_format($p_hijo->precio, 0, ',', '.')}}</span>
+                          </div>
+                        </div>
+                        <div style="margin-top: -5px; font-size: 15px; color: #6e6e6e;">
+                          <p style="margin: 0;">{{$p_hijo->descripcion}}</p>
+                        </div>
+                      </div>
+                          
+                      @endforeach
+                        
+                    @endif
                 @endforeach
             </div>
           </div>

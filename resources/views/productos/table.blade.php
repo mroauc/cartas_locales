@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table" id="productos-table">
+    <table class="table tablaData" id="productos-table">
         <thead>
         <tr>
             <th>Nombre</th>
@@ -7,7 +7,7 @@
         <th>Precio</th>
         <th>Disponible</th>
         <th>Stock</th>
-            <th colspan="3">Action</th>
+        <th >Acción</th>
         </tr>
         </thead>
         <tbody>

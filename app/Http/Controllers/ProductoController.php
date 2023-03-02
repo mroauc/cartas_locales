@@ -44,7 +44,8 @@ class ProductoController extends AppBaseController
     {
         $locales = \App\Models\Local::all();
         $categorias = \App\Models\Categoria_producto::all();
-        return view('productos.create')->with('locales', $locales)->with('categorias', $categorias);
+        $productos = \App\Models\Producto::all();
+        return view('productos.create')->with('locales', $locales)->with('categorias', $categorias)->with('productos', $productos);
     }
 
     /**
@@ -57,7 +58,6 @@ class ProductoController extends AppBaseController
     public function store(CreateProductoRequest $request)
     {
         $input = $request->all();
-
         $producto = \App\Models\Producto::create([
             'nombre' => $input['nombre'],
             'descripcion' => $input['descripcion'],
@@ -67,6 +67,14 @@ class ProductoController extends AppBaseController
             'id_local' => $input['id_local'],
             'id_categoria' => $input['id_categoria']
         ]);
+
+        if(isset($input['productos_hijos'])){
+            foreach ($input['productos_hijos'] as $key => $id_producto) {
+                $producto_h = \App\Models\Producto::find($id_producto);
+                $producto_h->id_producto_padre = $producto->id;
+                $producto_h->save();
+            }
+        }
 
         Flash::success('Producto saved successfully.');
 
@@ -111,10 +119,11 @@ class ProductoController extends AppBaseController
 
             return redirect(route('productos.index'));
         }
-
+        $productos = \App\Models\Producto::all();
         return view('productos.edit')->with('producto', $producto)
         ->with('categorias', $categorias)
-        ->with('locales', $locales);
+        ->with('locales', $locales)
+        ->with('productos', $productos);
     }
 
     /**
@@ -128,7 +137,7 @@ class ProductoController extends AppBaseController
     public function update($id, UpdateProductoRequest $request)
     {
         $input = $request->all();
-        $producto = $this->productoRepository->find($id);
+        $producto = \App\Models\Producto::find($id);
 
         if (empty($producto)) {
             Flash::error('Producto not found');
@@ -144,6 +153,15 @@ class ProductoController extends AppBaseController
         $producto->id_local = $input['id_local'];
         $producto->id_categoria = $input['id_categoria'];
         $producto->save();
+
+        $producto->productos_hijos()->update(['id_producto_padre' => null]);
+        if(isset($input['productos_hijos'])){
+            foreach ($input['productos_hijos'] as $key => $id_producto) {
+                $producto_h = \App\Models\Producto::find($id_producto);
+                $producto_h->id_producto_padre = $producto->id;
+                $producto_h->save();
+            }
+        }
 
         Flash::success('Producto updated successfully.');
 

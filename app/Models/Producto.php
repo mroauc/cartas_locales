@@ -37,7 +37,8 @@ class Producto extends Model
         'disponible',
         'stock',
         'id_local',
-        'id_categoria'
+        'id_categoria',
+        'id_producto_padre'
     ];
 
     /**
@@ -66,5 +67,13 @@ class Producto extends Model
     public function cartas()
     {
         return $this->belongsToMany(\App\Models\Carta::class, 'productos_cartas', 'id_producto', 'id_carta');
+    }
+
+    public function producto_padre(){
+        return $this->belongsTo('App\Models\Producto', 'id_producto_padre' );
+    }
+
+    public function productos_hijos(){  
+        return $this->hasMany('App\Models\Producto', 'id_producto_padre');
     }
 }

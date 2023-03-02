@@ -20,6 +20,13 @@ Route::get('/', [
     \App\Http\Controllers\HomeController::class, 'index'
 ])->name('home');
 
+
+Route::get('/pruebas', function (){
+    $producto = \App\Models\Producto::where('nombre', 'Tradicional')->first();
+    dump($producto);
+    dd($producto->producto_padre);
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
