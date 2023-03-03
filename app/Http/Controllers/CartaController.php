@@ -168,10 +168,21 @@ class CartaController extends AppBaseController
         return redirect(route('cartas.index'));
     }
 
-    public function mostrarCarta($id){
+    public function mostrarCarta($id, Request $request){
         // dd(str_repeat(".", 20 - strlen('Papas Fritas') - strlen('$5.00')));
+        // dd($request->all());
         $carta = \App\Models\Carta::find($id);
         $categorias = \App\Models\Categoria_producto::whereHas('productos')->get();
+        if(isset($request->all()['desktop'])){
+            return view('carta1_desktop')->with('carta', $carta)->with('categorias', $categorias);    
+        }
         return view('carta1')->with('carta', $carta)->with('categorias', $categorias); 
     }
+
+    // public function mostrarCarta($id){
+    //     // dd(str_repeat(".", 20 - strlen('Papas Fritas') - strlen('$5.00')));
+    //     $carta = \App\Models\Carta::find($id);
+    //     $categorias = \App\Models\Categoria_producto::whereHas('productos')->get();
+    //     return view('carta1')->with('carta', $carta)->with('categorias', $categorias); 
+    // }
 }
