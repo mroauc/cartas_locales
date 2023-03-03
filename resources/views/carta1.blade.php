@@ -89,7 +89,7 @@
                       <div class="ml-3 mb-1" style="margin-top: -5px;">
                         <div class="menu-item d-flex">
                           <div class="menu-item-name">
-                              <span>{{$p_hijo->nombre}}<span class="dots"></span></span>
+                              <span> -{{$p_hijo->nombre}}<span class="dots"></span></span>
                           </div>
                           <div class="menu-item-price ml-auto align-items-center">
                               <span>{{$p_hijo->precio != 0 ? number_format($p_hijo->precio, 0, ',', '.') : ''}}</span>

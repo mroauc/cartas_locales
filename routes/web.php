@@ -45,5 +45,5 @@ Route::resource('productos', App\Http\Controllers\ProductoController::class);
 
 Route::resource('categoriaProductos', App\Http\Controllers\Categoria_productoController::class);
 // Route::get('/showCarta', 'CartaController@mostrarCarta')->name('carta.mostrarCarta');
-Route::get('/showCarta/{id}', [App\Http\Controllers\CartaController::class, 'mostrarCarta'])->name('cartas.mostrarCarta');
+Route::get('/antojos_purisima/{id}', [App\Http\Controllers\CartaController::class, 'mostrarCarta'])->name('cartas.mostrarCarta');
 

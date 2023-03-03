@@ -79,10 +79,10 @@
 
                 <div class="row">
                     <div class="col-8">
-                        <div class="icheck-primary">
+                        {{-- <div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">Remember Me</label>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="col-4">
@@ -92,12 +92,12 @@
                 </div>
             </form>
 
-            <p class="mb-1">
+            {{-- <p class="mb-1">
                 <a href="{{ route('password.request') }}">I forgot my password</a>
-            </p>
-            <p class="mb-0">
+            </p> --}}
+            {{-- <p class="mb-0">
                 <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
-            </p>
+            </p> --}}
         </div>
         <!-- /.login-card-body -->
     </div>
