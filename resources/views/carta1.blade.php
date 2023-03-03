@@ -68,7 +68,7 @@
               </div>
             </div>
             <div class="col-md-8">
-                @foreach ($categoria->productos as $producto)
+                @foreach ($categoria->productos->whereNull('id_producto_padre') as $producto)
                     <div class="mb-1">
                       <div class="menu-item d-flex">
                         <div class="menu-item-name">
@@ -92,7 +92,7 @@
                               <span>{{$p_hijo->nombre}}<span class="dots"></span></span>
                           </div>
                           <div class="menu-item-price ml-auto align-items-center">
-                              <span>{{number_format($p_hijo->precio, 0, ',', '.')}}</span>
+                              <span>{{$p_hijo->precio != 0 ? number_format($p_hijo->precio, 0, ',', '.') : ''}}</span>
                           </div>
                         </div>
                         <div style="margin-top: -5px; font-size: 15px; color: #6e6e6e;">
