@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCartaRequest;
 use App\Repositories\CartaRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
 use Flash;
 use Response;
 
@@ -173,10 +174,32 @@ class CartaController extends AppBaseController
         // dd($request->all());
         $carta = \App\Models\Carta::find($id);
         $categorias = \App\Models\Categoria_producto::whereHas('productos')->get();
+        // dd('stop');
         if(isset($request->all()['desktop'])){
             return view('carta1_desktop')->with('carta', $carta)->with('categorias', $categorias);    
         }
+        if(isset($request->all()['pdf'])){
+            $dompdf = new \Dompdf\Dompdf();
+            $html = view('carta1_pdf')->with('carta', $carta)->with('categorias', $categorias)->render();
+            $options = new \Dompdf\Options();
+            $options->setIsHtml5ParserEnabled(true);
+            $dompdf->setOptions($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+            $dompdf->stream();
+        }
+        $visitas = \App\Models\VisitaCarta::all();
+        // dd($visitas);
+        $visitas[0]->visitas++;
+        $visitas[0]->save();
+
         return view('carta1')->with('carta', $carta)->with('categorias', $categorias); 
+    }
+
+    public function visitasCarta(){
+        $vistas = \App\Models\VisitaCarta::all();
+        return view('vistas')->with('vistas', $vistas);
     }
 
     // public function mostrarCarta($id){
